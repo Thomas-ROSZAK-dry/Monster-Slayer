@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vue Basics</title>
+    <title>MonsterSlayer</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -20,19 +20,30 @@
       <section id="monster" class="container">
         <h2>Monster Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value"></div>
+          <!-- pas besoin de this ou data pour récupérer la méthode ou les données
+          on indique directement le nom de la data  
+         avec width on va modifier l'état de la barre
+        le % est l'unité  -->
+          <div class="healthbar__value" :style="levelMonsterBar"></div>
         </div>
       </section>
       <section id="player" class="container">
         <h2>Your Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value"></div>
+          <div class="healthbar__value" :style="levelPlayerBar" ></div>
         </div>
       </section>
+      <section  class="container" v-if="winner">
+        <h2>Game Over</h2>
+        <h3 v-if="winner === 'monster'"  >You lost !</h3>
+        <h3 v-else-if="winner === 'player'">You won !</h3>
+        <h3 v-else>Draw !</h3>
+      </section>
       <section id="controls">
-        <button>ATTACK</button>
-        <button>SPECIAL ATTACK</button>
-        <button>HEAL</button>
+        <button @click="attackMonster() + attackPlayer()">ATTACK</button>
+        <!-- modulo 3 permets de diviser le nbre de tour par 3 et voir si 3 alors on désactive le button -->
+        <button :disabled="MayIuseSpecialAttack" @click="specialAttackMonster" >SPECIAL ATTACK</button>
+        <button @click="healPlayer">HEAL</button>
         <button>SURRENDER</button>
       </section>
       <section id="log" class="container">
