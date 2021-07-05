@@ -38,16 +38,26 @@
         <h3 v-if="winner === 'monster'"  >You lost !</h3>
         <h3 v-else-if="winner === 'player'">You won !</h3>
         <h3 v-else>Draw !</h3>
+        <button @click="newGame" >Start New Game</button>
       </section>
-      <section id="controls">
+      <section id="controls" v-else>
         <button @click="attackMonster() + attackPlayer()">ATTACK</button>
         <!-- modulo 3 permets de diviser le nbre de tour par 3 et voir si 3 alors on désactive le button -->
         <button :disabled="MayIuseSpecialAttack" @click="specialAttackMonster" >SPECIAL ATTACK</button>
         <button @click="healPlayer">HEAL</button>
-        <button>SURRENDER</button>
+        <button @click="surrender" >SURRENDER</button>
+      
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2>
+        <ul>
+          <span :class="{'log--player':messages.actionBy === 'player', 'log--monster':messages.actionBy === 'monster'}"  v-for="message in messages">
+            {{message.actionBy}} - {{message.actionType}} -{{message.actionValue}}
+          </span>
+          <span v-if="messages.actionType === 'heal'" >
+            Heals himself for<span>{{ message.actionValue}}</span>
+          </span>
+        </ul>
         <ul></ul>
       </section>
     </div>

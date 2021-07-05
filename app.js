@@ -14,14 +14,21 @@ const app = new Vue ( {
            monsterHealth: 100,
            currentRound:0,
            winner:null,
+           messages: [],
 
         };
     },
     computed: {
         levelMonsterBar() {
+            if (this.monsterHealth <0) {
+                return {width: '0%' } 
+            }
             return {width: this.monsterHealth + '%' } 
-        },
+                    },
         levelPlayerBar(){
+            if (this.playerHealth <0) {
+                return {width: '0%' } 
+            }
             return {width: this.playerHealth + '%' } 
         },
         
@@ -48,11 +55,19 @@ const app = new Vue ( {
             else if (value <=0) {
                 this.winner='player'
             }
-            //lost
+            
     },
         },
     
     methods: {
+        newGame() {
+            this.monsterHealth =100,
+            this.playerHealth= 100,
+            this.winner= null,
+            this.currentRound=0,
+            this.messages= []
+        },
+     
         attackMonster() {
             this.currentRound++;
             // formule permettant de calculer un chiffrer aléatoire entre un min et un max
@@ -61,6 +76,7 @@ const app = new Vue ( {
             // this.monsterHealth = this.monsterHealth -attackValue;
             // autre option d'écriture
            this.monsterHealth-=attackValue
+           this.addLogMessage('player', 'attack', attackValue)
         
        
         },
@@ -69,13 +85,15 @@ const app = new Vue ( {
             const attackValue= getRandomValue(5,12);
             // this.playerHealth = this.playerHealth -attackValue;
             // autre option d'écriture
-                      this.playerHealth-=attackValue
+            this.playerHealth-=attackValue
+            this.addLogMessage('monster', 'attack', attackValue)
             
         },
         specialAttackMonster() {
             this.currentRound++;
             const attackValue= getRandomValue(12,25);
             this.monsterHealth-=attackValue;
+            this.addLogMessage('player', 'special-attack', attackValue)
             this.attackPlayer();
         },
         healPlayer() {
@@ -87,8 +105,20 @@ const app = new Vue ( {
             else(
                 this.playerHealth+=healPlayerValue
             )
+            this.addLogMessage('player', 'heal', healPlayerValue)
             this.attackPlayer();
-    }
+    },
+    surrender() {
+        this.winner ='monster';
+    },
+    addLogMessage(who, what, value) {
+        this.messages.unshift( {
+            actionBy: who,
+            actionType: what,
+            actionValue: value,
+                  
+        });
+    },
 }
 
 }) 
