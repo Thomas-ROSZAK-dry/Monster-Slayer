@@ -82,7 +82,7 @@ const app = new Vue ( {
         },
         attackPlayer() {
             this.currentRound++;
-            const attackValue= getRandomValue(5,12);
+            const attackValue= getRandomValue(8,14);
             // this.playerHealth = this.playerHealth -attackValue;
             // autre option d'écriture
             this.playerHealth-=attackValue
@@ -98,7 +98,7 @@ const app = new Vue ( {
         },
         healPlayer() {
             this.currentRound++;
-            const healPlayerValue= getRandomValue(8,18);
+            const healPlayerValue= getRandomValue(5,12);
             if (this.playerHealth + healPlayerValue >100) {
                 this.playerHealth =100;
             }

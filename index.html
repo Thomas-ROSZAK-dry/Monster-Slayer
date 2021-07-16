@@ -14,7 +14,7 @@
   </head>
   <body>
     <header>
-      <h1>Monster Slayer</h1>
+      <h1>MONSTER SLAYER</h1>
     </header>
     <div id="game">
       <section id="monster" class="container">
@@ -34,7 +34,7 @@
         </div>
       </section>
       <section  class="container" v-if="winner">
-        <h2>Game Over</h2>
+        <h2 class="gameover" >Game Over</h2>
         <h3 v-if="winner === 'monster'"  >You lost !</h3>
         <h3 v-else-if="winner === 'player'">You won !</h3>
         <h3 v-else>Draw !</h3>
